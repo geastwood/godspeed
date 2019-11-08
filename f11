@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Only serve as a proxy
+
+set -eu
+
+cmd=${1-gl}
+
+if [[ $cmd == 'gl' ]]; then
+    shift
+    f11-gl "$@"
+fi
