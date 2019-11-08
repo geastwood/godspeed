@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -euo pipefail
+
+GITHUB_URL='https://www.github.com'
+CMDS=('wb' 'pf' 'prj')
+
+cmd=${1-wb}
+
+if [[ $cmd == 'wb' ]]; then
+    open ${GITHUB_URL}
+    exit 0
+fi
+
+if [[ $cmd == 'pf' ]]; then
+    open ${GITHUB_URL}/geastwood
+    exit 0
+fi
+
+if [[ $cmd == 'prj' ]]; then
+    file=$(fzf < ./github.repos)
+    IFS=';' read -ra parts <<< "$file"
+    url=${parts[0]}
+    echo $url | pbcopy
+    exit 0
+fi
+
+echo [Error]: Unsupported command \"$cmd\"
+exit 1
