@@ -6,6 +6,7 @@ GITHUB_URL='https://www.github.com'
 CMDS=('wb' 'pf' 'prj')
 
 cmd=${1-wb}
+folder=`dirname $0`
 
 if [[ $cmd == 'wb' ]]; then
     open ${GITHUB_URL}
@@ -18,10 +19,11 @@ if [[ $cmd == 'pf' ]]; then
 fi
 
 if [[ $cmd == 'prj' ]]; then
-    file=$(fzf < ./github.repos)
+    file=$(fzf < "$folder/github.repos")
     IFS=';' read -ra parts <<< "$file"
     url=${parts[0]}
     echo $url | pbcopy
+    echo $url is copied to clipboard
     exit 0
 fi
 
