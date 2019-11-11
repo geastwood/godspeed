@@ -10,3 +10,8 @@ if [[ $cmd == 'gl' ]]; then
     shift
     f11-gl "$@"
 fi
+
+if [[ $cmd == 'jira' ]]; then
+    shift
+    f11-jira "$@"
+fi

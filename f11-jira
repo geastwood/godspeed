@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eu
+
+cmd=${1-website}
+URL=https://factor-eleven.atlassian.net/
+
+if [[ $cmd == "website" ]]; then
+    open $URL
+    exit 0
+fi
+
+if [[ $cmd =~ ^[0-9]{2,} ]]; then
+    open $URL/browse/AM-$cmd
+    exit 0
+else
+    echo no match
+fi
+
+echo "noop :)"

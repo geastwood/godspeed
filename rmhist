@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+if ! [[ -p /dev/stdin ]]; then 
+    echo [Error]: This script only accept stdin, using pipe instead.
+    exit 1
+fi
+
+preview=${1-nopreview}
+read line
+
+HISTO_FILE=$HOME/.config/.history
+
+if [[ -n $line ]]; then
+    echo \"$line\" to be removed
+
+    if [[ $preview == '--preview' ]]; then
+        echo Not yet supported
+    else
+        gsed -i "/$line/d" $HISTO_FILE
+    fi
+fi
