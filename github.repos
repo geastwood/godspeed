@@ -5,3 +5,6 @@ https://devhints.io/bash;cheatsheet,bash
 https://github.com/zeit/pkg;cli,executable
 http://zsh.sourceforge.net/Doc/Release/Functions.htm;zsh,autoload
 https://github.com/junegunn/fzf/wiki/examples;fzf,bash,example
+https://github.com/prasmussen/chrome-cli;chrome,browser
+https://opensource.com/article/19/5/python-3-default-mac;python
+https://tools.ietf.org/html/rfc6979;ecdsas,signature

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eu
+
+SPACE_COUNT=`yabai -m query --spaces | jq '. | length'`
+
+# get window ids out by query different spaces
+WINDOWS=`yabai -m query --spaces | jq '.[] | .windows | join(",")'`
+echo $WINDOWS
+
+declare -i count=0
+# loop through them 
+space_strip=""
+
+symbols=(一 二 三 四 五 六 七 八 九 十)
+
+for i in $WINDOWS; do
+    clean=${i//\"/}
+    echo ${symbols[$count]}
+    space_strip="$space_strip${symbols[$count]}"
+
+    if [[ $clean =~ "," ]]; then
+        subwindow_names=""
+        for subwindow in ${clean//,/ }; do
+            window_name=`yabai -m query --windows --window $subwindow | jq '.app'`
+            subwindow_names="$subwindow_names${window_name// /_}/"
+        done
+        space_strip="$space_strip(${subwindow_names/%\//}) "
+    elif [[ -n "$clean" ]]; then
+        window_name=`yabai -m query --windows --window $clean | jq '.app'`
+        space_strip="$space_strip(${window_name// /_}) "
+    else
+        space_strip="$space_strip "
+    fi;
+
+    count=$(( count + 1 ))
+done
+
+str_without_quote=${space_strip//\"/}
+# str_without_comma=${str_without_quote//,/}
+
+# `yabai -m config status_bar_space_icon_strip $space_strip`
+
+
+# echo $str_without_comma
+yabai -m config status_bar_space_icon_strip $str_without_quote

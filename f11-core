@@ -1,0 +1,13 @@
+#!/bin/bash
+set -eu
+
+cmd=${1-start}
+
+if [[ $cmd == "start" ]]; then
+    echo "whatnot"
+    yarn start
+    chrome open "localhost:6060"
+    exit 0
+fi
+
+echo "noop :)"
