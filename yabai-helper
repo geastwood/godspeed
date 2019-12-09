@@ -2,22 +2,18 @@
 
 set -eu
 
-SPACE_COUNT=`yabai -m query --spaces | jq '. | length'`
-
 # get window ids out by query different spaces
-WINDOWS=`yabai -m query --spaces | jq '.[] | .windows | join(",")'`
-echo $WINDOWS
+windows=`yabai -m query --spaces | jq '.[] | .windows | join(",")'`
 
-declare -i count=0
 # loop through them 
 space_strip=""
+declare -i count=0
 
-symbols=(一 二 三 四 五 六 七 八 九 十)
+space_symbols=(一 二 三 四 五 六 七 八 九 十)
 
-for i in $WINDOWS; do
+for i in $windows; do
     clean=${i//\"/}
-    echo ${symbols[$count]}
-    space_strip="$space_strip${symbols[$count]}"
+    space_strip="$space_strip${space_symbols[$count]}"
 
     if [[ $clean =~ "," ]]; then
         subwindow_names=""
@@ -37,10 +33,6 @@ for i in $WINDOWS; do
 done
 
 str_without_quote=${space_strip//\"/}
-# str_without_comma=${str_without_quote//,/}
 
-# `yabai -m config status_bar_space_icon_strip $space_strip`
-
-
-# echo $str_without_comma
+# setting the space
 yabai -m config status_bar_space_icon_strip $str_without_quote
