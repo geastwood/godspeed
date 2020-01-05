@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eu
+
+space_count=$(yabai -m query --spaces | jq '.[].windows | length')
+declare space_index=1
+
+for count in $space_count; do
+    if [[ $count -eq 0 ]]; then
+        yabai -m space --focus $space_index; yabai -m space --destroy;
+    fi
+    space_index=$(( space_index + 1 ))
+done

@@ -9,7 +9,7 @@ windows=`yabai -m query --spaces | jq '.[] | .windows | join(",")'`
 space_strip=""
 declare -i count=0
 
-space_symbols=(一 二 三 四 五 六 七 八 九 十)
+space_symbols=(🦖 🐘 🐊 四 五 六 七 八 九 十)
 
 for i in $windows; do
     clean=${i//\"/}
