@@ -14,10 +14,11 @@ npmrc_dir=$HOME/.npmrcs
 if [[ -e $npmrc_filepath ]]; then
     registry=$(cat $npmrc_filepath | perl -n -e'/^registry=(\S+)/ && print $1')
     profile_name=none
+
     for file in $npmrc_dir/*; do
         content=$(cat $file)
 
-        if [[ $content =~ $registry ]]; then
+        if [[ $content =~ $registry ]] && [[ $(basename $file) != "default" ]]; then
             npmrc $(basename $file)
         fi
     done;
