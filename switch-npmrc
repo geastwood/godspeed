@@ -1,0 +1,29 @@
+#! /usr/bin/env bash
+
+set -eu
+
+npmrc_filepath=$PWD/.npmrc
+registry=none
+
+current_profile=$(npmrc | grep -e '\* ' | awk '{ print $2 }')
+npmrc_dir=$HOME/.npmrcs
+
+# echo "Current npm profile is: $current_profile"
+# echo "Searching .npmrc in: $PWD"
+
+if [[ -e $npmrc_filepath ]]; then
+    registry=$(cat $npmrc_filepath | perl -n -e'/^registry=(\S+)/ && print $1')
+    profile_name=none
+    for file in $npmrc_dir/*; do
+        content=$(cat $file)
+
+        if [[ $content =~ $registry ]]; then
+            npmrc $(basename $file)
+        fi
+    done;
+else
+    if [[ $current_profile != "default" ]]; then
+        npmrc default
+    fi
+fi
+
