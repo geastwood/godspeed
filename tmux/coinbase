@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+while [[ true ]]; do
+    #statements
+    price=$(curl -s https://api.coinbase.com/v2/prices/spot\?currency\=USD | jq '.data.amount | tonumber' | xargs printf "BTC: %.2f\$")
+
+    echo $price
+
+    sleep 60
+done

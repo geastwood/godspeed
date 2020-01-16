@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -eu
+
+tmux list-panes -F '#{pane_current_command}' | tr '\n' ' '
+

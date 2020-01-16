@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -eu
+
+filepath=${1-none}
+projec_name=""
+
+echo $filepath | awk 'BEGIN { FS = "/" } ; { print $NF }'
+
