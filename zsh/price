@@ -1,0 +1,22 @@
+#! /bin/bash
+
+set -eu
+
+symbol=${1-none}
+SYMBOL=$(echo $symbol | tr '[:lower:]' '[:upper:]')
+
+if [[ $symbol == 'none' ]]; then
+    echo Expect a symbol
+fi
+
+data=$(curl -s -H "X-CMC_PRO_API_KEY: $CMC_PRO_API_KEY" \
+    -H "Accept: application/json" \
+    -d "symbol=$SYMBOL" \
+    -G https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest)
+
+echo " Displaying price for $SYMBOL":
+
+echo $data | jq ".data.$SYMBOL.quote.USD | .price" | xargs printf "Price:\t%.2f\$\n"
+echo $data | jq ".data.$SYMBOL.quote.USD | .percent_change_1h" | xargs printf "1h:\t%.2f%%\n"
+echo $data | jq ".data.$SYMBOL.quote.USD | .percent_change_24h" | xargs printf "24h:\t%.2f%%\n"
+echo $data | jq ".data.$SYMBOL.quote.USD | .percent_change_7d" | xargs printf "7d:\t%.2f%%\n"

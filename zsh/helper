@@ -1,0 +1,25 @@
+#! /bin/bash
+
+set -eu
+
+text=${1-''}
+
+parts=""
+IFS="/"
+read -ra parts <<< "$text"
+
+if [[ ${#parts[@]} -le 1 ]]; then
+    echo Expect a valid command
+    exit
+fi
+
+cmd=${parts[0]}
+
+if [[ $cmd == 'price' ]]; then
+    /Users/feiliu/.config/productivity/zsh/price ${parts[1]}
+    exit
+fi
+
+if [[ $cmd == 'ticket' ]]; then
+    /Users/feiliu/.config/productivity/zsh/ticket ${parts[1]}
+fi
