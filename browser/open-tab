@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set  -eu
+
+name=${1-none}
+
+open_by_name() {
+    local tab_ids tab_id
+    tab_ids=$(chrome-cli list tabs | grep $1 | awk '{ gsub(/\[/, ""); gsub(/\]/,"") ; print $1 }')
+
+    tab_id=$(echo $tab_ids | tr ' ' '\n' | head -n 1)
+
+    if [[ -n $tab_id ]]; then
+        chrome-cli activate -t $tab_id
+        return
+    fi
+
+    local url
+
+    if [[ $1 == 'Gmail' ]]; then
+        url='https://mail.google.com'
+    elif [[ $1 == 'GitHub' ]]; then
+        url='https://github.com'
+    elif [[ $1 == 'GitLab' ]]; then
+        url='https://gitlab.factor-eleven.de'
+    elif [[ $1 == 'Jira' ]]; then
+        #statements
+        url='https://factor-eleven.atlassian.net/jira/your-work'
+    fi
+
+    echo $url
+    chrome-cli open $url
+
+}
+
+open_by_name $name
